@@ -176,10 +176,12 @@ test_filename = maybe_download('notMNIST_small.tar.gz', 8458043)
 train_folders = maybe_extract(train_filename)
 test_folders = maybe_extract(test_filename)
 
+########################################################
 # Problem 1.
 train_datasets = maybe_pickle(train_folders, 45000)
 test_datasets = maybe_pickle(test_folders, 1800)
 
+########################################################
 # Problem 2.
 # To show a sample image, use the following code:
 def display_pickled_file(pickle_file):
@@ -195,11 +197,11 @@ def display_pickled_file(pickle_file):
 pf = train_datasets[0]  # index 0 should be all As, 1 = all Bs, etc.
 display_pickled_file(pf)
 
+########################################################
 # Problem 3
 ## Make sure the data is balanced - check length of images in each class.
 print('Ensuring balance between letter classes')
 print('Checking train datasets...')
-[52912, 52912, 52912, 52912, 52912, 52912, 52912, 52912, 52912, 52911]
 train_images_per_letter =  map(lambda l: len(os.listdir(l)), train_folders)
 print train_images_per_letter
 
@@ -220,23 +222,29 @@ print('Training:', train_dataset.shape, train_labels.shape)
 print('Validation:', valid_dataset.shape, valid_labels.shape)
 print('Testing:', test_dataset.shape, test_labels.shape)
 
+########################################################
+# Prob 4: Randomize labels, then save data for later reuse:
+train_dataset, train_labels = randomize(train_dataset, train_labels)
+test_dataset, test_labels = randomize(test_dataset, test_labels)
+valid_dataset, valid_labels = randomize(valid_dataset, valid_labels)
 
-# Prob 4 / Save data for later reuse:
-# try:
-#   f = open(pickle_file, 'wb')
-#   save = {
-#     'train_dataset': train_dataset,
-#     'train_labels': train_labels,
-#     'valid_dataset': valid_dataset,
-#     'valid_labels': valid_labels,
-#     'test_dataset': test_dataset,
-#     'test_labels': test_labels,
-#     }
-#   pickle.dump(save, f, pickle.HIGHEST_PROTOCOL)
-#   f.close()
-# except Exception as e:
-#   print('Unable to save data to', pickle_file, ':', e)
-#   raise
+pickle_file = os.path.join(data_root, 'notMNIST.pickle')
+try:
+  f = open(pickle_file, 'wb')
+  save = {
+    'train_dataset': train_dataset,
+    'train_labels': train_labels,
+    'valid_dataset': valid_dataset,
+    'valid_labels': valid_labels,
+    'test_dataset': test_dataset,
+    'test_labels': test_labels,
+    }
+  pickle.dump(save, f, pickle.HIGHEST_PROTOCOL)
+  f.close()
+except Exception as e:
+  print('Unable to save data to', pickle_file, ':', e)
+  raise
 
-# statinfo = os.stat(pickle_file)
-# print('Compressed pickle size:', statinfo.st_size)
+
+statinfo = os.stat(pickle_file)
+print('Compressed pickle size:', statinfo.st_size)
