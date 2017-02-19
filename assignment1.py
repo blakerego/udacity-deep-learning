@@ -202,11 +202,13 @@ display_pickled_file(pf)
 print('Ensuring balance between letter classes')
 print('Checking train datasets...')
 train_images_per_letter = map(lambda l: len(os.listdir(l)), train_folders)
-print train_images_per_letter
+for train_length in train_images_per_letter:
+    print(train_length)
 
-print('Checking train datasets...')
+print('Checking test datasets...')
 test_images_per_letter = map(lambda l: len(os.listdir(l)), train_folders)
-print test_images_per_letter
+for test_length in test_images_per_letter:
+    print(test_length)
 
 train_size = 200000
 valid_size = 10000

@@ -1,2 +1,5 @@
+*.tar.gz
+notMNIST_*
+*.pickle
+notMNIST.pickle
 .DS_Store
-assignment1-notMNIST/notMNIST.pickle
