@@ -3,3 +3,6 @@ notMNIST_*
 *.pickle
 notMNIST.pickle
 .DS_Store
+.ipynb_checkpoints/*
+*~
+.ipynb_checkpoints/1_notmnist-checkpoint.ipynb
